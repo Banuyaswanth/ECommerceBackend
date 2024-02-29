@@ -53,10 +53,10 @@ namespace ECommerce.Controllers
         {
             try
             {
-                var emailData = Convert.FromBase64String(registerRequestDto.Email);
-                registerRequestDto.Email = Encoding.UTF8.GetString(emailData);
-                var passwordData = Convert.FromBase64String(registerRequestDto.Password);
-                registerRequestDto.Password = Encoding.UTF8.GetString(passwordData);
+                byte[] emailBytes = Encoding.UTF8.GetBytes(registerRequestDto.Email);
+                registerRequestDto.Email = Encoding.UTF8.GetString(emailBytes);
+                byte[] passBytes = Encoding.UTF8.GetBytes(registerRequestDto.Password);
+                registerRequestDto.Password = Encoding.UTF8.GetString(passBytes);
                 if (registerRequestDto.Roles.Any() && registerRequestDto.Roles != null && registerRequestDto.Roles.Length > 0)
                 {
                     using HttpClient httpClient = new();
@@ -126,9 +126,10 @@ namespace ECommerce.Controllers
         {
             try
             {
-                var emailData = Convert.FromBase64String(loginRequestDto.Email);
+                byte[] emailData = Encoding.UTF8.GetBytes(loginRequestDto.Email);
                 loginRequestDto.Email = Encoding.UTF8.GetString(emailData);
-                var passwordData = Convert.FromBase64String(loginRequestDto.Password);
+                //var passwordData = Convert.FromBase64String(loginRequestDto.Password);
+                byte[] passwordData = Encoding.UTF8.GetBytes(loginRequestDto.Password);
                 loginRequestDto.Password = Encoding.UTF8.GetString(passwordData);
                 using HttpClient httpClient = new();
                 httpClient.BaseAddress = new Uri(AuthMicroserviceBaseUrl);
